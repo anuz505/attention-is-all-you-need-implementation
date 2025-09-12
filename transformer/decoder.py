@@ -7,13 +7,13 @@ class DecoderBlock(nn.Module):
         super(DecoderBlock,self).__init__()
         self.attention = MultiHeadAttention(e_dim,n_heads)
         self.norm = nn.LayerNorm(e_dim)
-        self.transformerblock = TransformerBlock(e_dim,dropout,forward_expansion)
+        self.transformerblock = TransformerBlock(e_dim,dropout,forward_expansion,n_heads)
         self.dropout = nn.Dropout(dropout)
 
     def forward(self,x,key,value,src_mask,target_mask):
         attention = self.attention(x,x,x,target_mask)
         query = self.dropout(self.norm(attention + x))
-        output = self.transformerblock(value,key,query,src_mask)
+        output = self.transformerblock(query,key,value,src_mask)
         return output
 
 
@@ -33,7 +33,7 @@ class MainDecoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self,x,enc_output,src_mask,target_mask):
-        N,seq_len = x.shape()
+        N,seq_len = x.shape
         positions = torch.arange(0,seq_len).expand(N,seq_len).to(device=self.device)
         x = self.dropout((self.word_embed(x)+self.positions(positions)))
 

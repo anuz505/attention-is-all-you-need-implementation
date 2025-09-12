@@ -1,7 +1,7 @@
 import torch.nn as nn
-from  transformer import TransformerBlock
+from transformer_block import TransformerBlock
 import torch
-class Encoder:
+class Encoder(nn.Module):
     def __init__(self,vocab_size,e_dim, n_layers,dropout,device,n_heads,forward_expansion,max_len):
         super(Encoder,self).__init__()
         self.e_dim = e_dim
@@ -10,7 +10,8 @@ class Encoder:
         self.pos_embed = nn.Embedding(max_len,e_dim)
         self.layers = nn.ModuleList(
             [
-                TransformerBlock(e_dim=e_dim,dropout=dropout,forward_expansion=forward_expansion)
+                TransformerBlock(e_dim=e_dim,dropout=dropout,forward_expansion=forward_expansion,n_heads=n_heads)
+                for _ in range(n_layers)
             ]
         )
         self.dropout = nn.Dropout(dropout)
