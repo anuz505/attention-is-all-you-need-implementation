@@ -331,7 +331,5 @@ torch.Size([2, 7, 10])
 ## 📚 References
 
 - [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - Original Transformer paper
-- [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/) - Visual explanation
-- [The Annotated Transformer](http://nlp.seas.harvard.edu/2018/04/03/attention.html) - Code walkthrough
 
 **Happy coding! 🎉**
